@@ -1,3 +1,4 @@
+//https://learn.jquery.com/using-jquery-core/document-ready/
 $(document).ready(function () {
 
     var cityArray;
@@ -82,9 +83,10 @@ $(document).ready(function () {
 
     function cityBtn(city) {
         //THIS MAKES SURE THAT WHEN A BTN IS CLICKED THAT IT DOESN'T CREATE A DUPLICATE BTN
+        //TRIM https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
         var citySearch = city.trim();
-        var buttonCheck = $(`#searchedCity > BUTTON[value='${citySearch}']`);
-        if (buttonCheck.length == 1) {
+        var btnConfirm = $(`#searchedCity > BUTTON[value='${citySearch}']`);
+        if (btnConfirm.length == 1) {
             return;
         }
 
@@ -94,10 +96,7 @@ $(document).ready(function () {
             localStorage.setItem("cityKey", JSON.stringify(cityArray));
         }
         //ADDS BTN OF SEARCHED CITY
-        $("#searchedCity").prepend(`
-            <div>
-                <button class="btn btn-light" value='${city}'>${city}</button>
-            </div>`);
+        $("#searchedCity").prepend(`<button class="btn btn-light" value='${city}'>${city}</button>`);
     }
     
     function archiveCity(array) {
@@ -106,4 +105,3 @@ $(document).ready(function () {
         })
     }
 });
-
