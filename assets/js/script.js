@@ -27,6 +27,58 @@ $(document).ready(function () {
         weatherForecast(city);
     })
     
+    function currentWeather(city) {
+        var cityQuery = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=9394674f81c3b96a31bd60057156dfe5";
+
+        $.ajax(cityQuery)
+            .then(function (input) {
+            
+                var weatherIcon = "https://openweathermap.org/img/w/" + (input.weather[0].icon) + ".png";
+                
+                var currentDate = new Date(input.dt * 1000);
+                //TODAYS HTML DATA
+                todaysWeather.html(`
+                    <div>
+                        <h2>${input.name}, ${input.sys.country} (${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()})<img src=${weatherIcon} height="70px"></h2>
+                        <p>Temperature: ${parseInt(input.main.temp).toFixed() + " &#176F"}</p>
+                        <p>Humidity: ${(input.main.humidity)}%</p>
+                        <p>Wind Speed: ${(input.wind.speed).toFixed(1) + " MPH"}</p>
+                    </div>`
+                )
+                cityBtn(input.name);
+            })
+    };
+    
+    function weatherForecast(city) {
+        var forecastQuery = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&APPID=9394674f81c3b96a31bd60057156dfe5";
+        $.ajax(forecastQuery)
+            .then(function (input) {
+                var forecast = input.list;
+                
+                fiveForecast.empty();
+                $.each(forecast, function (i) {
+                    //THIS MAKES IT SO IT ONLY PULLS 5 DAY FORECAST INSTEAD ALL
+                    if (!forecast[i].dt_txt.includes("12:00:00")) {
+                        return;
+                    }
+                    var forecastDate = new Date(forecast[i].dt * 1000);
+                    var weatherIcon = `https://openweathermap.org/img/w/${forecast[i].weather[0].icon}.png`;
+
+                    //THIS IS WHAT IS ADDED TO THE PAGE WITH ITS CORRESPONDING DATA
+                    fiveForecast.append(`
+                        <section class="col-md">
+                            <div class="card ">
+                                <div class="card-body">
+                                    <h4>${forecastDate.getMonth() + 1}/${forecastDate.getDate()}/${forecastDate.getFullYear()}</h4>
+                                    <img src=${weatherIcon} alt="Icon">
+                                    <p>Temp: ${(forecast[i].main.temp).toFixed() + " &#176F"}</p>
+                                    <p>Humidity: ${forecast[i].main.humidity}%</p>
+                                </div>
+                            </div>
+                        </section>`)
+                })
+            })
+    };
 
     function cityBtn(city) {
         //THIS MAKES SURE THAT WHEN A BTN IS CLICKED THAT IT DOESN'T CREATE A DUPLICATE BTN
@@ -42,7 +94,10 @@ $(document).ready(function () {
             localStorage.setItem("cityKey", JSON.stringify(cityArray));
         }
         //ADDS BTN OF SEARCHED CITY
-        $("#searchedCity").prepend(`<button class="btn btn-light" value='${city}'>${city}</button>`);
+        $("#searchedCity").prepend(`
+            <div>
+                <button class="btn btn-light" value='${city}'>${city}</button>
+            </div>`);
     }
     function archiveCity(array) {
         $.each(array, function (i) {
@@ -50,100 +105,4 @@ $(document).ready(function () {
         })
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //  make api keys for my api calls
-//     var keyUrl = "9394674f81c3b96a31bd60057156dfe5"
-//     var apiUrl = "api.openweathermap.org/data/2.5/forecast?q=" + city +"&units=imperial&appid=9394674f81c3b96a31bd60057156dfe5"
-// // target dom elemens for function actions
-//     var searchBtnEl = document.querySelector("#searchBtn")
-//     var cityBtnEl = document.querySelector("#cityBtn")
-
-// //  
-// var formSubmitHandler = function(event){
-//     event.preventDefault();
-
-//     console.log(event.target.value)
-//     return;
-// }
-
-// searchBtnEl.addEventListener("click", formSubmitHandler);
-
-// $(document).ready(function()){
-
-//     $('#searchBtn').click(function(){
-//         var city = $('#city').val();
-
-//         if(city !=''{
-//             $.ajax({
-//                 url: "api.openweathermap.org/data/2.5/forecast?q=" + city +"&units=imperial&appid=9394674f81c3b96a31bd60057156dfe5",
-//                 data: {
-//                   zipcode: 97201
-//                 },
-//                 success: function( result ) {
-//                   $( "#weather-temp" ).html( "<strong>" + result + "</strong> degrees" );
-//                 }
-//               });
-//         })
-//     })
-// }
-
-//https://jquery.com/
-// $.ajax({
-//     url: "/api/getWeather",
-//     data: {
-//       zipcode: 97201
-//     },
-//     success: function( result ) {
-//       $( "#weather-temp" ).html( "<strong>" + result + "</strong> degrees" );
-//     }
-//   });
-
-//WROTE THIS SECTION
-// //  make api keys for my api calls
-// var keyUrl = "9394674f81c3b96a31bd60057156dfe5"
-// var apiUrl = "api.openweathermap.org/data/2.5/forecast?q=" + city +"&units=imperial&appid=9394674f81c3b96a31bd60057156dfe5"
-// // target dom elemens for function actions
-// var searchBtn = document.querySelector("#searchBtn");
-// // var cityBtn = $("#cityBtn")
-
-// //  
-
-// for (var i = 0; i < localStorage.length; i++) {
-
-// var city = localStorage.getItem(i);
-
-// var cityName = $(".city-nav").addClass("city-name-btn");
-
-// cityName.append("<button class='cityBtn col m-2'>" + city + "</button>");
-// }
-
-// var keyCount =0;
-// searchBtn.click(function(){
-//     var cityInput = $('.input').val();
-//WROTE THIS SECTION
-
-// });
-
-// function saveCity(){
-//     var city = $(this).siblings(".task").val();
-//     console.log($(this)); 
-
-//     localStorage.setItem(city)
-// }
-
-// searchBtn.addEventListener('click', saveCity);
-
-
 
