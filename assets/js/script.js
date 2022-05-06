@@ -99,6 +99,7 @@ $(document).ready(function () {
                 <button class="btn btn-light" value='${city}'>${city}</button>
             </div>`);
     }
+    
     function archiveCity(array) {
         $.each(array, function (i) {
             cityBtn(array[i]);
