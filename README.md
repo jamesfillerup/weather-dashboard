@@ -5,6 +5,9 @@
 
 This is a weather platform that will let you search for what the weather is based on the city. It will then pull up a 5 day forecast of that area as well as other meteorological data.
 
+![](img.png)
+
+
 ## Table of Contents
 
 - [Installation](#installation)
