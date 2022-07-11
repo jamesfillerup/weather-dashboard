@@ -2,7 +2,6 @@
 $(document).ready(function () {
 
     var cityArray;
-    // var cityCoordinates = "https://api.openweathermap.org/data/2.5/uvi?lat=" + coordinates.lat + "&lon=" + coordinates.lon + "&APPID=" + apiKey;
     var todaysWeather = $("#currentWeather");
     var fiveForecast = $("#fiveForecast");
 
