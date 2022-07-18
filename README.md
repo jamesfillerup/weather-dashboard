@@ -32,10 +32,6 @@ You can install this by cloning it to your computer.
 
 Put a city name in the search bar and discover what the weather is for that city.
 
-## Credits
-
-
-
 ## License
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -45,5 +41,6 @@ Put a city name in the search bar and discover what the weather is for that city
 
 ## Contact Me
 
-jamesfillerup9@gmail.com
+Github: jamesfillerup
+james@fillerupdev.com
 
